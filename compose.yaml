@@ -42,11 +42,18 @@ services:
       POSTGRES_USER: ${DB_ADMIN_USERNAME}
       POSTGRES_PASSWORD: ${DB_ADMIN_PASSWORD}
 
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+      MIGRATION_DB_USERNAME: ${MIGRATION_DB_USERNAME}
+      MIGRATION_DB_PASSWORD: ${MIGRATION_DB_PASSWORD}
+
     ports:
       - "${DB_PORT}:5432"
 
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d
 
     healthcheck:
       test:
