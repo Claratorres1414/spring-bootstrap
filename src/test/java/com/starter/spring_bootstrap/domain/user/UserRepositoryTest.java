@@ -65,4 +65,11 @@ class UserRepositoryTest {
         assertEquals(user.getId(), foundUser.get().getId());
         assertEquals("test-user", foundUser.get().getUsername());
     }
+
+    @Test
+    void shouldReturnEmptyWhenUsernameDoesNotExist() {
+        Optional<User> foundUser = userRepository.findByUsername("non-existent");
+
+        assertTrue(foundUser.isEmpty());
+    }
 }
