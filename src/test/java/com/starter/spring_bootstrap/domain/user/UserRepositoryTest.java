@@ -8,6 +8,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -47,5 +49,20 @@ class UserRepositoryTest {
         assertThrows(DataIntegrityViolationException.class, () ->
                 userRepository.saveAndFlush(secondUser)
         );
+    }
+
+    @Test
+    void shouldFindUserByUsername() {
+        User user = User.builder()
+                .username("test-user")
+                .build();
+
+        userRepository.saveAndFlush(user);
+
+        Optional<User> foundUser = userRepository.findByUsername("test-user");
+
+        assertTrue(foundUser.isPresent());
+        assertEquals(user.getId(), foundUser.get().getId());
+        assertEquals("test-user", foundUser.get().getUsername());
     }
 }
