@@ -1,5 +1,6 @@
 package com.starter.spring_bootstrap.test.validation;
 
+import com.starter.spring_bootstrap.shared.response.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ValidationController {
 
     @PostMapping("/validation")
-    public ResponseEntity<Void> test(
+    public ResponseEntity<ApiResponse<ValidationRequest>> test(
             @Valid @RequestBody ValidationRequest request
     ) {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(
+                new ApiResponse<>(request, "Validation successful")
+        );
     }
 }

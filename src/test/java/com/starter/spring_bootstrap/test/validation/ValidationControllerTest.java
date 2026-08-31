@@ -30,7 +30,10 @@ class ValidationControllerTest {
                                     "email": "clara@example.com"
                                 }
                                 """))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.name").value("Clara"))
+                .andExpect(jsonPath("$.data.email").value("clara@example.com"))
+                .andExpect(jsonPath("$.message").value("Validation successful"));
     }
 
     @Test
