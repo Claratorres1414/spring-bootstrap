@@ -97,4 +97,13 @@ class ValidationControllerTest {
                 .andExpect(jsonPath("$.data").doesNotExist())
                 .andExpect(jsonPath("$.message").value("Tipo de mídia não suportado"));
     }
+
+    @Test
+    void shouldReturnInternalServerErrorWithoutExposingExceptionDetails() throws Exception {
+        mockMvc.perform(get("/test/test-error"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.data").doesNotExist())
+                .andExpect(jsonPath("$.message").value("Erro interno do servidor"));
+    }
 }

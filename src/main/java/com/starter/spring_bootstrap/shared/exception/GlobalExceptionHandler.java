@@ -81,4 +81,16 @@ public class GlobalExceptionHandler {
                         "Tipo de mídia não suportado"
                 ));
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Void>> handleInternalServerError(
+            Exception exception
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ApiResponse.error(
+                        HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                        "Erro interno do servidor"
+                ));
+    }
 }
