@@ -17,7 +17,7 @@ public class ValidationController {
             @Valid @RequestBody ValidationRequest request
     ) {
         return ResponseEntity.ok(
-                new ApiResponse<>(request, "Validation successful")
+                ApiResponse.success(request, "Validation successful")
         );
     }
 }
