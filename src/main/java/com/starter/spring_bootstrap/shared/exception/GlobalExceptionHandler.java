@@ -3,6 +3,7 @@ package com.starter.spring_bootstrap.shared.exception;
 import com.starter.spring_bootstrap.shared.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -40,6 +41,18 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(
                         HttpStatus.NOT_FOUND.value(),
                         "Recurso não encontrado"
+                ));
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Void>> handleBadRequest(
+            HttpMessageNotReadableException exception
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(
+                        HttpStatus.BAD_REQUEST.value(),
+                        "Requisição inválida"
                 ));
     }
 }

@@ -61,4 +61,20 @@ class ValidationControllerTest {
                 .andExpect(jsonPath("$.data").doesNotExist())
                 .andExpect(jsonPath("$.message").value("Recurso não encontrado"));
     }
+
+    @Test
+    void shouldReturnBadRequestWhenRequestBodyIsMalformed() throws Exception {
+        mockMvc.perform(post("/test/validation")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "name": "Clara",
+                                "email":
+                            }
+                            """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.data").doesNotExist())
+                .andExpect(jsonPath("$.message").value("Requisição inválida"));
+    }
 }
