@@ -77,4 +77,13 @@ class ValidationControllerTest {
                 .andExpect(jsonPath("$.data").doesNotExist())
                 .andExpect(jsonPath("$.message").value("Requisição inválida"));
     }
+
+    @Test
+    void shouldReturnMethodNotAllowedWhenHttpMethodIsNotSupported() throws Exception {
+        mockMvc.perform(get("/test/validation"))
+                .andExpect(status().isMethodNotAllowed())
+                .andExpect(jsonPath("$.status").value(405))
+                .andExpect(jsonPath("$.data").doesNotExist())
+                .andExpect(jsonPath("$.message").value("Método HTTP não permitido"));
+    }
 }

@@ -4,6 +4,7 @@ import com.starter.spring_bootstrap.shared.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -53,6 +54,18 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(
                         HttpStatus.BAD_REQUEST.value(),
                         "Requisição inválida"
+                ));
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMethodNotAllowed(
+            HttpRequestMethodNotSupportedException exception
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(ApiResponse.error(
+                        HttpStatus.METHOD_NOT_ALLOWED.value(),
+                        "Método HTTP não permitido"
                 ));
     }
 }
