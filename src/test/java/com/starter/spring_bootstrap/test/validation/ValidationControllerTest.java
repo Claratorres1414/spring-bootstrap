@@ -86,4 +86,15 @@ class ValidationControllerTest {
                 .andExpect(jsonPath("$.data").doesNotExist())
                 .andExpect(jsonPath("$.message").value("Método HTTP não permitido"));
     }
+
+    @Test
+    void shouldReturnUnsupportedMediaTypeWhenContentTypeIsNotSupported() throws Exception {
+        mockMvc.perform(post("/test/validation")
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content("name=Clara&email=clara@example.com"))
+                .andExpect(status().isUnsupportedMediaType())
+                .andExpect(jsonPath("$.status").value(415))
+                .andExpect(jsonPath("$.data").doesNotExist())
+                .andExpect(jsonPath("$.message").value("Tipo de mídia não suportado"));
+    }
 }

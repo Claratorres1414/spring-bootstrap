@@ -4,6 +4,7 @@ import com.starter.spring_bootstrap.shared.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -66,6 +67,18 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(
                         HttpStatus.METHOD_NOT_ALLOWED.value(),
                         "Método HTTP não permitido"
+                ));
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleUnsupportedMediaType(
+            HttpMediaTypeNotSupportedException exception
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                .body(ApiResponse.error(
+                        HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(),
+                        "Tipo de mídia não suportado"
                 ));
     }
 }
